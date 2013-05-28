@@ -1,10 +1,10 @@
-#### Vine4J ####
+Vine4J
 =====================
 Vine4J is an unofficial Java library for the Vine.
-With Vine4J, you can easily integrate your Java application with the Vine service. Vine4J is an unofficial library.
+With Vine4J, you can easily integrate your Java application with the Vine service.
 
-#### Error Codes ####
-=====================
+### Error Codes
+---------------------
 * (101) URL is empty 
 * (102) Tag seacrh term is empty
 * (103) Authenticate first
