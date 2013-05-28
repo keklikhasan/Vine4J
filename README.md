@@ -3,8 +3,9 @@ Vine4J
 Vine4J is an unofficial Java library for the Vine.
 With Vine4J, you can easily integrate your Java application with the Vine service.
 
-### Error Codes
----------------------
+Error Codes
+-----------
+
 * (101) URL is empty 
 * (102) Tag seacrh term is empty
 * (103) Authenticate first
@@ -26,3 +27,9 @@ With Vine4J, you can easily integrate your Java application with the Vine servic
 * (119) Username must at least 4 character
 * (120) Email is empty
 * (121) Email is valid
+
+
+Licence
+-----------
+
+[Apache License Version 2.0](https://github.com/IkiMuhendis/Vine4J/blob/master/LICENSE.md)
