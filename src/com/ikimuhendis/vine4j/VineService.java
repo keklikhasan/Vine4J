@@ -1,9 +1,7 @@
 package com.ikimuhendis.vine4j;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +9,6 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import com.ikimuhendis.vine4j.types.VineComment;
 import com.ikimuhendis.vine4j.types.VineEntity;
@@ -91,12 +88,11 @@ public class VineService {
 										+ ent.range.get(1) + "]";
 							}
 							entObj.put("range", range);
-							String json = JSONValue.toJSONString(entObj);
+							String json = JSONUtil.toJSON(entObj);
 							entitiesJSONList.add(json);
 						}
 					}
-					String entitiesJSON = JSONValue
-							.toJSONString(entitiesJSONList);
+					String entitiesJSON = JSONUtil.toJSON(entitiesJSONList);
 					params.put("entities", entitiesJSON);
 
 					HttpResponse response = HttpUtil
@@ -104,9 +100,7 @@ public class VineService {
 
 					InputStream is = HttpUtil
 							.getInputStreamHttpResponse(response);
-					JSONObject jsonResponse = (JSONObject) JSONValue
-							.parse(new InputStreamReader(is, Charset
-									.forName("UTF-8")));
+					JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 					if (JSONUtil.getBoolean(jsonResponse, "success")) {
 						return true;
 					} else {
@@ -175,9 +169,7 @@ public class VineService {
 				HttpResponse response = HttpUtil.get(url, this.key, params);
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					JSONObject data = (JSONObject) jsonResponse.get("data");
 					if (data != null) {
@@ -222,8 +214,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.get(url, this.key, params);
 
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -268,9 +259,7 @@ public class VineService {
 				HttpResponse response = HttpUtil.get(url, this.key, null);
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -312,9 +301,7 @@ public class VineService {
 				HttpResponse response = HttpUtil.post(url, this.key, null);
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -348,9 +335,7 @@ public class VineService {
 				HttpResponse response = HttpUtil.delete(url, this.key, null);
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -392,9 +377,7 @@ public class VineService {
 				HttpResponse response = HttpUtil.post(url, this.key, null);
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -428,9 +411,7 @@ public class VineService {
 				url = url.replaceAll("\\{userId\\}", "" + userId);
 				HttpResponse response = HttpUtil.delete(url, this.key, null);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -472,9 +453,7 @@ public class VineService {
 				url = url.replaceAll("\\{commentId\\}", "" + commentId);
 				HttpResponse response = HttpUtil.delete(url, this.key, null);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -538,9 +517,7 @@ public class VineService {
 				}
 
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					JSONObject data = (JSONObject) jsonResponse.get("data");
 					if (data != null) {
@@ -582,9 +559,7 @@ public class VineService {
 						"\\{postId\\}", "" + postId);
 				HttpResponse response = HttpUtil.post(url, this.key, null);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -617,9 +592,7 @@ public class VineService {
 						"\\{postId\\}", "" + postId);
 				HttpResponse response = HttpUtil.delete(url, this.key, null);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					return true;
 				} else {
@@ -673,8 +646,7 @@ public class VineService {
 			}
 			HttpResponse response = HttpUtil.get(url, this.key, params);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -721,8 +693,7 @@ public class VineService {
 			}
 			HttpResponse response = HttpUtil.get(url, this.key, params);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -757,9 +728,7 @@ public class VineService {
 						Constants.VINE_API_SEARCH_USER.replaceAll("\\{term\\}",
 								term), this.key, null);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					JSONObject data = (JSONObject) jsonResponse.get("data");
 					if (data != null) {
@@ -808,8 +777,7 @@ public class VineService {
 					"\\{userId\\}", this.userId + "");
 			HttpResponse response = HttpUtil.get(url, this.key, null);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				return JSONUtil.getLong(jsonResponse, "data");
 			} else {
@@ -844,9 +812,7 @@ public class VineService {
 				}
 				HttpResponse response = HttpUtil.get(url, this.key, params);
 				InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-				JSONObject jsonResponse = (JSONObject) JSONValue
-						.parse(new InputStreamReader(is, Charset
-								.forName("UTF-8")));
+				JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 				if (JSONUtil.getBoolean(jsonResponse, "success")) {
 					JSONObject data = (JSONObject) jsonResponse.get("data");
 					if (data != null) {
@@ -885,8 +851,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.get(Constants.VINE_API_ME,
 					this.key, null);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -920,8 +885,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.get(Constants.VINE_API_PROFILE
 					.replaceAll("\\{userId\\}", userId + ""), this.key, null);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -974,8 +938,7 @@ public class VineService {
 		HttpResponse response = HttpUtil.post(Constants.VINE_API_SIGNUP,
 				this.key, params);
 		InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-		JSONObject jsonResponse = (JSONObject) JSONValue
-				.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+		JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 		if (JSONUtil.getBoolean(jsonResponse, "success")) {
 			JSONObject data = (JSONObject) jsonResponse.get("data");
 			if (data != null) {
@@ -1009,8 +972,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.delete(Constants.VINE_API_LOGIN,
 					this.key, null);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				this.authenticated = false;
 				this.userId = 0;
@@ -1054,8 +1016,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.get(Constants.VINE_API_ME,
 					this.key, null);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
@@ -1098,8 +1059,7 @@ public class VineService {
 			HttpResponse response = HttpUtil.post(Constants.VINE_API_LOGIN,
 					this.key, params);
 			InputStream is = HttpUtil.getInputStreamHttpResponse(response);
-			JSONObject jsonResponse = (JSONObject) JSONValue
-					.parse(new InputStreamReader(is, Charset.forName("UTF-8")));
+			JSONObject jsonResponse = (JSONObject) JSONUtil.fromJSONStream(is);
 			if (JSONUtil.getBoolean(jsonResponse, "success")) {
 				JSONObject data = (JSONObject) jsonResponse.get("data");
 				if (data != null) {
